@@ -1,0 +1,207 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://ORBITS/Label.gd" type="Script" id=1]
+[ext_resource path="res://ORBITS/SHIP.gd" type="Script" id=2]
+[ext_resource path="res://ORBITS/World.gd" type="Script" id=3]
+[ext_resource path="res://ORBITS/Planet.gd" type="Script" id=4]
+[ext_resource path="res://ORBITS/Exhaust.gd" type="Script" id=5]
+[ext_resource path="res://ORBITS/Panel.gd" type="Script" id=6]
+[ext_resource path="res://ORBITS/download.jpg" type="Texture" id=7]
+[ext_resource path="res://ORBITS/Untitled.png" type="Texture" id=8]
+[ext_resource path="res://ORBITS/Trails.gd" type="Script" id=9]
+
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.1
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 1300.0
+
+[sub_resource type="PhysicsMaterial" id=3]
+friction = 0.0
+bounce = 0.4
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 13.3131
+
+[sub_resource type="CanvasItemMaterial" id=5]
+
+[node name="World" type="Node2D" groups=[
+"WORLD",
+]]
+script = ExtResource( 3 )
+
+[node name="DEBUG" type="Panel" parent="."]
+visible = false
+margin_left = -134.362
+margin_top = 46.166
+margin_right = 170.638
+margin_bottom = 314.166
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="DEBUG"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 22.753
+margin_top = 22.7875
+margin_right = -33.247
+margin_bottom = -149.212
+text = "Button"
+align = 1
+valign = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="DEBUG"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 25.2728
+margin_top = 73.2499
+margin_right = -30.7272
+margin_bottom = -98.7502
+text = "Button"
+align = 1
+valign = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="DEBUG"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 25.2728
+margin_top = 123.045
+margin_right = -30.7272
+margin_bottom = -48.9554
+text = "Button"
+align = 1
+valign = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="DEBUG"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.59
+margin_top = 186.085
+margin_right = -32.41
+margin_bottom = 8.08459
+text = "Yes"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Planet" type="RigidBody2D" parent="." groups=[
+"GravObj",
+"SimObj",
+]]
+position = Vector2( 2298.39, -48.9954 )
+mass = 20000.0
+physics_material_override = SubResource( 1 )
+gravity_scale = 0.0
+can_sleep = false
+linear_damp = 0.0
+script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Planet"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="Planet/CollisionShape2D"]
+position = Vector2( 5, 9.75684 )
+scale = Vector2( 0.658, 0.658 )
+texture = ExtResource( 8 )
+
+[node name="Planet2" type="RigidBody2D" parent="."]
+position = Vector2( -3302.89, 40.2011 )
+mass = 20000.0
+physics_material_override = SubResource( 1 )
+gravity_scale = 0.0
+can_sleep = false
+linear_velocity = Vector2( 0, -410 )
+linear_damp = 0.0
+angular_velocity = 30.0
+script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Planet2"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="Planet2/CollisionShape2D"]
+position = Vector2( 5, 9.75684 )
+scale = Vector2( 0.658, 0.658 )
+texture = ExtResource( 8 )
+
+[node name="SHIP" type="RigidBody2D" parent="." groups=[
+"SimObj",
+]]
+position = Vector2( 358.471, 7.62682 )
+gravity_scale = 0.0
+linear_damp = 0.0
+angular_damp = 0.4
+script = ExtResource( 2 )
+
+[node name="Exhaust" type="RigidBody2D" parent="SHIP"]
+position = Vector2( 0, 50 )
+mass = 0.01
+physics_material_override = SubResource( 3 )
+linear_damp = 0.0
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SHIP/Exhaust"]
+visible = false
+shape = SubResource( 4 )
+disabled = true
+
+[node name="Polygon2D" type="Polygon2D" parent="SHIP/Exhaust/CollisionShape2D"]
+material = SubResource( 5 )
+position = Vector2( 0, -1 )
+color = Color( 1, 0.996078, 0, 1 )
+polygon = PoolVector2Array( -0.0162964, -13.8881, 10.0157, -9.81919, 14.146, 0.431513, 9.91425, 9.61891, 0.170044, 14.1848, -9.76768, 10.1747, -13.9068, 0.00234985, -9.76768, -9.9595 )
+
+[node name="Ship" type="CollisionPolygon2D" parent="SHIP"]
+position = Vector2( -49.2509, 29.3 )
+polygon = PoolVector2Array( 0, 0, 50, -100, 100, 0 )
+
+[node name="Polygon2D" type="Polygon2D" parent="SHIP/Ship"]
+polygon = PoolVector2Array( 0, 0, 50, -100, 100, 0 )
+
+[node name="Camera2D" type="Camera2D" parent="SHIP/Ship"]
+show_behind_parent = true
+position = Vector2( 50, 0 )
+current = true
+zoom = Vector2( 2, 2 )
+
+[node name="YSort" type="YSort" parent="SHIP/Ship/Camera2D"]
+z_index = -1
+
+[node name="Background" type="Sprite" parent="SHIP/Ship/Camera2D/YSort"]
+show_behind_parent = true
+texture = ExtResource( 7 )
+
+[node name="Panel" type="Panel" parent="SHIP"]
+margin_left = -1.0
+margin_top = -1.0
+margin_right = 1.0
+margin_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Trails" type="Node2D" parent="."]
+script = ExtResource( 9 )
+
+[node name="0,0" type="Panel" parent="."]
+visible = false
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

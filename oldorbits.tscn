@@ -1,0 +1,203 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://ORBITS/Panel.gd" type="Script" id=2]
+[ext_resource path="res://ORBITS/World.gd" type="Script" id=4]
+[ext_resource path="res://ORBITS/Label.gd" type="Script" id=5]
+[ext_resource path="res://ORBITS/Untitled.png" type="Texture" id=7]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends RigidBody2D
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+var id =2
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+"
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 127.15
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends RigidBody2D
+var planet
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+var backg
+var thrust = Vector2(0, -750)
+var torque = 10000
+
+# Called when the node enters the scene tree for the first time.
+var Exhaust = Array()
+var Ereload = 0
+var Ecount = 0
+var pressed = 1
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+var test
+func _ready():
+	planet = get_node(\"../Planet\")
+	backg=get_node(\"../Background\")
+
+func _process(delta):
+	# thrust and turning
+	applied_force = Vector2()
+	if Input.is_action_pressed(\"ui_up\"):
+		applied_force += thrust.rotated(rotation)
+		if (Ereload == 0):
+			if Ecount<100:
+				Exhaust.append(null)
+			Exhaust[Ecount]=$Exhaust.duplicate()
+			call_deferred(\"add_child\", Exhaust[Ecount])
+			Exhaust[Ecount].online = true
+			Ecount +=1
+			if(Ecount>99):
+				Ecount = 0
+			Ereload = 8
+	Ereload -= int(Ereload !=0 )
+	var rotation_dir = 0
+	if Input.is_action_pressed(\"ui_right\"):
+		rotation_dir += 1
+		pressed += 0.01*(int(pressed<4)*2-1)
+	if Input.is_action_pressed(\"ui_left\"):
+		rotation_dir -= 1
+		pressed += 0.01*(int(pressed<4)*2-1)
+	if !(Input.is_action_pressed(\"ui_left\") or Input.is_action_pressed(\"ui_right\")):
+		pressed = 1
+	applied_torque = rotation_dir * torque * pressed
+	
+	
+	
+	#actual gravity
+	var direct = Vector2(planet.position[0],planet.position[1])
+	var directfull = direct + Vector2(-position[0],-position[1])
+	var streng = planet.mass/pow(directfull.length(),2)*100000*mass
+	applied_force += Vector2(cos(directfull.angle())*streng,sin(directfull.angle())*streng)
+	
+	
+	var zoom = $Ship/Camera2D.zoom
+	var zoomif = (int(Input.is_action_pressed(\"ui_minus\"))*int(zoom[0]<30)-int(Input.is_action_pressed(\"ui_plus\"))*int(zoom[0]>0.6))*zoom[0]*0.02
+	$Ship/Camera2D.zoom += Vector2(zoomif,zoomif)
+	backg.position = position*0.95
+	backg.scale = $Ship/Camera2D.zoom
+	
+"
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends Label
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var test = \"test\"
+var test
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Planet" type="RigidBody2D" parent="."]
+position = Vector2( 964.987, 11.7976 )
+mass = 300.0
+gravity_scale = 0.0
+can_sleep = false
+script = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Planet"]
+scale = Vector2( 2, 2 )
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="Planet/CollisionShape2D"]
+scale = Vector2( 0.35, 0.35 )
+texture = ExtResource( 7 )
+
+[node name="Panel" type="Panel" parent="."]
+margin_left = 246.0
+margin_top = 154.0
+margin_right = 551.0
+margin_bottom = 422.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 64.0
+margin_right = -24.0
+margin_bottom = -108.0
+text = "Button"
+align = 1
+valign = 1
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 33.0
+margin_top = 162.0
+margin_right = -32.0
+margin_bottom = -16.0
+text = "Yes"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SHIP" type="RigidBody2D" parent="."]
+position = Vector2( 358.471, 7.62682 )
+gravity_scale = 0.0
+linear_damp = 0.0
+angular_damp = 1.0
+script = SubResource( 3 )
+
+[node name="Ship" type="CollisionPolygon2D" parent="SHIP"]
+position = Vector2( -49.2509, 29.3 )
+polygon = PoolVector2Array( 0, 0, 50, -100, 100, 0 )
+
+[node name="Polygon2D" type="Polygon2D" parent="SHIP/Ship"]
+polygon = PoolVector2Array( 0, 0, 50, -100, 100, 0 )
+
+[node name="Camera2D" type="Camera2D" parent="SHIP/Ship"]
+position = Vector2( 50, 0 )
+rotating = true
+current = true
+zoom = Vector2( 2, 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 340.0
+margin_top = 204.0
+margin_right = 380.0
+margin_bottom = 218.0
+script = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
