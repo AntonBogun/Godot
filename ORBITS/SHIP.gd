@@ -66,6 +66,7 @@ func _physics_process(delta):
 		if (Ereload == 0):
 			if Ecount<100:
 				Exhaust.append(null)
+			#asdqwdoiaposd make it using scene instancing
 			Exhaust[Ecount]=$Exhaust.duplicate()
 			call_deferred("add_child", Exhaust[Ecount])
 			Exhaust[Ecount].online = true

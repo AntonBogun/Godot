@@ -15,5 +15,5 @@ func _ready():
 
 
 func _physics_process(delta):
-	#applied_force=PublicFuncs.Grav(position,mass,self)
+	applied_force=PublicFuncs.Grav(position,mass,self)
 	pass

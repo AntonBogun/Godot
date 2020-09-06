@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://ORBITS/Label.gd" type="Script" id=1]
 [ext_resource path="res://ORBITS/SHIP.gd" type="Script" id=2]
@@ -9,12 +9,14 @@
 [ext_resource path="res://ORBITS/download.jpg" type="Texture" id=7]
 [ext_resource path="res://ORBITS/Untitled.png" type="Texture" id=8]
 [ext_resource path="res://ORBITS/Trails.gd" type="Script" id=9]
+[ext_resource path="res://ORBITS/Planet.tres" type="Shape2D" id=10]
+[ext_resource path="res://ORBITS/indivTrail.gd" type="Script" id=11]
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.1
 
-[sub_resource type="CircleShape2D" id=2]
-radius = 1300.0
+[sub_resource type="CircleShape2D" id=6]
+radius = 2600.0
 
 [sub_resource type="PhysicsMaterial" id=3]
 friction = 0.0
@@ -107,18 +109,31 @@ mass = 20000.0
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 can_sleep = false
+linear_velocity = Vector2( 0, 410 )
 linear_damp = 0.0
 script = ExtResource( 4 )
 
+[node name="Area2D" type="Area2D" parent="Planet"]
+gravity_distance_scale = 0.01
+gravity = 1024.0
+linear_damp = 0.0
+angular_damp = 0.0
+
+[node name="AreaShape" type="CollisionShape2D" parent="Planet/Area2D"]
+shape = SubResource( 6 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Planet"]
-shape = SubResource( 2 )
+shape = ExtResource( 10 )
 
 [node name="Sprite" type="Sprite" parent="Planet/CollisionShape2D"]
 position = Vector2( 5, 9.75684 )
 scale = Vector2( 0.658, 0.658 )
 texture = ExtResource( 8 )
 
-[node name="Planet2" type="RigidBody2D" parent="."]
+[node name="Planet2" type="RigidBody2D" parent="." groups=[
+"GravObj",
+"SimObj",
+]]
 position = Vector2( -3302.89, 40.2011 )
 mass = 20000.0
 physics_material_override = SubResource( 1 )
@@ -130,7 +145,7 @@ angular_velocity = 30.0
 script = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Planet2"]
-shape = SubResource( 2 )
+shape = ExtResource( 10 )
 
 [node name="Sprite" type="Sprite" parent="Planet2/CollisionShape2D"]
 position = Vector2( 5, 9.75684 )
@@ -195,6 +210,10 @@ __meta__ = {
 
 [node name="Trails" type="Node2D" parent="."]
 script = ExtResource( 9 )
+
+[node name="Trail" type="Line2D" parent="Trails"]
+visible = false
+script = ExtResource( 11 )
 
 [node name="0,0" type="Panel" parent="."]
 visible = false
