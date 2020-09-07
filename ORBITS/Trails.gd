@@ -16,6 +16,9 @@ var toggle = false
 var timescale = 0.016667
 var Lines = [null]
 var templine = 0
+var ConstantUpdate=false
+var tempconstant=0
+var tempupdate=0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	SimObj = get_tree().get_nodes_in_group("SimObj")
@@ -98,7 +101,7 @@ func _draw():
 #	pass
 # warning-ignore:unused_argument
 func _physics_process(delta):
-	if Input.is_action_pressed("ui_r")and !bool(delay):
+	if (Input.is_action_pressed("ui_r")and !bool(delay))or (ConstantUpdate and !bool(tempupdate)):
 		delay = 20
 		state()
 		if	Lines[0]!=null:
@@ -106,6 +109,7 @@ func _physics_process(delta):
 				if trail!=null:
 					trail.deactivate=true
 					trail=null
+		tempupdate=180
 	elif(toggle):
 		if(!list.empty()):
 			if list.size()<30000:
@@ -123,4 +127,8 @@ func _physics_process(delta):
 		toggledelay = 25
 	delay += -int(delay>0)
 	toggledelay += -int(toggledelay>0)
-	
+	if Input.is_action_pressed("ui_t")and !bool(tempconstant):
+		ConstantUpdate = !ConstantUpdate
+		tempconstant=10
+	tempconstant-= int(tempconstant>0)
+	tempupdate-=int(tempupdate>0)

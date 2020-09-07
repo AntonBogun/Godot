@@ -40,6 +40,7 @@ func Closest():
 func _ready():
 	planet = get_node("../Planet")
 	Closest()
+#	print_tree_pretty()
 
 #EXTEND
 
