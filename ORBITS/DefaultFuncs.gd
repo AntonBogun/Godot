@@ -1,19 +1,28 @@
 extends Node
 
+func newList():
+	var list = [0]
+	for i in 10:
+		list+=list
+	return list
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+#decrement by 1 unless ==0
+func Delay(list,id):
+	list[id]-=int(list[id]>0)
 
-
-# Called when the node enters the scene tree for the first time.
+	pass
 func _ready():
 	pass # Replace with function body.
-func bruh():
-	for Planet in get_tree().get_nodes_in_group("GravObj"):
-			print(Planet.Gravid)
-		
-		#id != null and id != planet
+	
+	
+#func bruh():
+#	for Planet in get_tree().get_nodes_in_group("GravObj"):
+#			print(Planet.Gravid)
+#
+#		#id != null and id != planet
+
+
+
 func Grav(Globalpos,mass,id=null):
 	var Grav = Vector2()
 	for Planet in get_tree().get_nodes_in_group("GravObj"):
@@ -25,6 +34,3 @@ func Grav(Globalpos,mass,id=null):
 	return Grav
 	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

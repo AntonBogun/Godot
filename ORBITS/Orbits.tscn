@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://ORBITS/Label.gd" type="Script" id=1]
 [ext_resource path="res://ORBITS/SHIP.gd" type="Script" id=2]
@@ -11,12 +11,20 @@
 [ext_resource path="res://ORBITS/Trails.gd" type="Script" id=9]
 [ext_resource path="res://ORBITS/Planet.tres" type="Shape2D" id=10]
 [ext_resource path="res://ORBITS/indivTrail.gd" type="Script" id=11]
+[ext_resource path="res://ORBITS/StarSector.gd" type="Script" id=12]
+[ext_resource path="res://ORBITS/Stars.gd" type="Script" id=13]
+[ext_resource path="res://ORBITS/FPS.gd" type="Script" id=14]
+[ext_resource path="res://ORBITS/Font.tres" type="DynamicFontData" id=15]
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.1
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 2600.0
+
+[sub_resource type="DynamicFont" id=7]
+size = 128
+font_data = ExtResource( 15 )
 
 [sub_resource type="PhysicsMaterial" id=3]
 friction = 0.0
@@ -100,6 +108,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Polygon2D" type="Polygon2D" parent="DEBUG/Button"]
+visible = false
+position = Vector2( 93.2328, -22.2487 )
+polygon = PoolVector2Array( 1385.77, 422.631, -649.864, 421.964, -650.037, -767.906, 1388.71, -769.283 )
+
 [node name="Planet" type="RigidBody2D" parent="." groups=[
 "GravObj",
 "SimObj",
@@ -120,6 +133,8 @@ linear_damp = 0.0
 angular_damp = 0.0
 
 [node name="AreaShape" type="CollisionShape2D" parent="Planet/Area2D"]
+visible = false
+position = Vector2( -0.236084, 0.235977 )
 shape = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Planet"]
@@ -161,8 +176,60 @@ linear_damp = 0.0
 angular_damp = 0.4
 script = ExtResource( 2 )
 
+[node name="Camera2D" type="Camera2D" parent="SHIP"]
+show_behind_parent = true
+scale = Vector2( 0.5, 0.5 )
+current = true
+
+[node name="Actual View" type="Polygon2D" parent="SHIP/Camera2D"]
+visible = false
+color = Color( 0.537255, 0.545098, 1, 1 )
+polygon = PoolVector2Array( 1562.54, 893.92, 1575.57, -868.599, -1542.05, -865.235, -1528.59, 887.193 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="SHIP/Camera2D"]
+
+[node name="Stars" type="ParallaxLayer" parent="SHIP/Camera2D/ParallaxBackground"]
+motion_scale = Vector2( 0.05, 0.05 )
+script = ExtResource( 13 )
+
+[node name="Sector" type="Polygon2D" parent="SHIP/Camera2D/ParallaxBackground/Stars"]
+visible = false
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( 500, -500, -500, -500, -500, 500, 500, 500 )
+script = ExtResource( 12 )
+
+[node name="YSort" type="YSort" parent="SHIP/Camera2D"]
+z_index = -1
+
+[node name="Background" type="Sprite" parent="SHIP/Camera2D/YSort"]
+visible = false
+show_behind_parent = true
+texture = ExtResource( 7 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="SHIP/Camera2D"]
+margin_left = 1155.33
+margin_top = -854.368
+margin_right = 2097.33
+margin_bottom = -594.368
+rect_scale = Vector2( 0.713979, 0.835197 )
+custom_fonts/normal_font = SubResource( 7 )
+text = "FPS"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="SHIP"]
+margin_left = -1.0
+margin_top = -1.0
+margin_right = 1.0
+margin_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Exhaust" type="RigidBody2D" parent="SHIP"]
-position = Vector2( 0, 50 )
+position = Vector2( 0, 30 )
 mass = 0.01
 physics_material_override = SubResource( 3 )
 linear_damp = 0.0
@@ -170,6 +237,7 @@ script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SHIP/Exhaust"]
 visible = false
+scale = Vector2( 0.5, 0.5 )
 shape = SubResource( 4 )
 disabled = true
 
@@ -180,33 +248,11 @@ color = Color( 1, 0.996078, 0, 1 )
 polygon = PoolVector2Array( -0.0162964, -13.8881, 10.0157, -9.81919, 14.146, 0.431513, 9.91425, 9.61891, 0.170044, 14.1848, -9.76768, 10.1747, -13.9068, 0.00234985, -9.76768, -9.9595 )
 
 [node name="Ship" type="CollisionPolygon2D" parent="SHIP"]
-position = Vector2( -49.2509, 29.3 )
-polygon = PoolVector2Array( 0, 0, 50, -100, 100, 0 )
+scale = Vector2( 0.5, 0.5 )
+polygon = PoolVector2Array( -50, 35, 50, 35, 0, -80 )
 
 [node name="Polygon2D" type="Polygon2D" parent="SHIP/Ship"]
-polygon = PoolVector2Array( 0, 0, 50, -100, 100, 0 )
-
-[node name="Camera2D" type="Camera2D" parent="SHIP/Ship"]
-show_behind_parent = true
-position = Vector2( 50, 0 )
-current = true
-zoom = Vector2( 2, 2 )
-
-[node name="YSort" type="YSort" parent="SHIP/Ship/Camera2D"]
-z_index = -1
-
-[node name="Background" type="Sprite" parent="SHIP/Ship/Camera2D/YSort"]
-show_behind_parent = true
-texture = ExtResource( 7 )
-
-[node name="Panel" type="Panel" parent="SHIP"]
-margin_left = -1.0
-margin_top = -1.0
-margin_right = 1.0
-margin_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+polygon = PoolVector2Array( -50, 35, 50, 35, 0, -80 )
 
 [node name="Trails" type="Node2D" parent="."]
 script = ExtResource( 9 )

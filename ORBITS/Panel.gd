@@ -8,4 +8,6 @@ extends Panel
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	var a = $Button/Polygon2D
+#	print(a.polygon[0][0]-a.polygon[1][0])
+#	print(a.polygon[0][1]-a.polygon[2][1])

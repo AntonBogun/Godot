@@ -4,7 +4,7 @@ var planet
 
 
 var thrust = Vector2(0, -750)
-var torque = 10000
+var torque = 3000
 
 
 var Exhaust = Array()
@@ -30,12 +30,7 @@ func Closest():
 			else:
 				relative = prerelative
 				Planethost=_Planet
-
-
-
-
-
-
+#oh god this needs to change
 
 func _ready():
 	planet = get_node("../Planet")
@@ -87,7 +82,7 @@ func _physics_process(delta):
 		pressed = 1
 
 	#gravity
-	applied_force += PublicFuncs.Grav(position,mass,self)
+#	applied_force += PublicFuncs.Grav(position,mass,self)
 	
 	
 	#torque contraption
@@ -96,16 +91,16 @@ func _physics_process(delta):
 		torquetimer = 60
 		Closest()
 	torquetimer-=1
-	if (Vector2(Planethost.linear_velocity-linear_velocity).length()<200):
-		groundmult = 1+applied_force.length()/200
+	if (Vector2(Planethost.linear_velocity-linear_velocity).length()<200 and angular_velocity<0.2):
+		groundmult = 1+applied_force.length()/torque*30
 	
 	applied_torque = rotation_dir * torque *groundmult #* pressed
 	
-	var zoom = $Ship/Camera2D.zoom
+	var zoom = $Camera2D.zoom
 	var zoomif = (int(Input.is_action_pressed("ui_minus"))*int(zoom[0]<30)-int(Input.is_action_pressed("ui_plus"))*int(zoom[0]>0.6))*zoom[0]*0.02
-	$Ship/Camera2D.zoom += Vector2(zoomif,zoomif)
-	$Ship/Camera2D/YSort/Background.scale = $Ship/Camera2D.zoom
-	$Ship/Camera2D/YSort/Background.rotation = -rotation
-	$Ship/Camera2D/YSort/Background.position = -position.rotated(-rotation)*0.05
+	$Camera2D.zoom += Vector2(zoomif,zoomif)
+	$Camera2D/YSort/Background.scale = $Camera2D.zoom
+	$Camera2D/YSort/Background.rotation = -rotation
+	$Camera2D/YSort/Background.position = -position.rotated(-rotation)*0.05
 
 

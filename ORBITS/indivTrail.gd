@@ -17,7 +17,7 @@ func _process(delta):
 		if deactivate:
 			queue_free()
 		if (init):
-			width=pow(log(mass),0.5)*10+10
+			width=pow(log(mass),0.5)*5+5
 			points=line
 			visible=true
 		init = false

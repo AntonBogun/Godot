@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ORBITS/new_particlesmaterial.tres" type="Material" id=1]
+[ext_resource path="res://ORBITS/Particle.gd" type="Script" id=2]
+
+[node name="Particles2D" type="Particles2D"]
+emitting = false
+explosiveness = 1.0
+process_material = ExtResource( 1 )
+script = ExtResource( 2 )
