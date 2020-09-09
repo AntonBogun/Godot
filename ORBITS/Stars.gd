@@ -1,24 +1,29 @@
-extends ParallaxLayer
+extends Node2D
 
 # NEED TO ADD UN-STACK ALGORITHM
 
 
 var paralx
-var zoom
 var Delay=PublicFuncs.newList()
 var size
 var size2
 var checkarray=Array()
 var sectors = Array()
 var debugstr = ""
+
+var Camer 
+var viewsize
+var Target
 # Called when the node enters the scene tree for the first time.\
 
 
 
 
 func _ready():
-	size = get_parent().get_parent().get_node("Actual View").polygon
-	var temp = 2
+	Camer = get_node("../../../SHIP/Camera2D")
+	viewsize = get_node("../../../SHIP/ActualView")
+	Target = get_node("../../../SHIP")
+	size = viewsize.polygon
 	for point in size:
 		point = point*1.25
 	size2= Vector2(size[1][0]-size[2][0],size[0][1]-size[1][1])
@@ -46,6 +51,8 @@ func sectorsetup(coords):
 	instance.position = coords*1000
 	instance.visible = true
 	instance.online = true
+	instance.displace = Vector2(0,0)
+	instance.minlen=0
 	sectors.append(instance)
 #	debugstr +="apennded"+str(instance.position) + "\n"
 func UpdateSectors():
@@ -72,7 +79,6 @@ func UpdateSectors():
 			var coords = Vector2(round(point[0]/1000),round(point[1]/1000))
 #			debugstr +=str(coords)+"coords\n"
 			sectorsetup(coords)
-	var sectnum = 0
 	var n =sectors.size()-1
 	for sector in sectors.size():
 		if sectors[n].displace[0]>500 or sectors[n].displace[1]>500:
@@ -85,14 +91,16 @@ func UpdateSectors():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	zoom= get_parent().get_parent().zoom[0]
 	
 	PublicFuncs.Delay(Delay,0)
+#	position=Target.position*0.05
 	
+	paralx = Target.position*0.05
 	if(Delay[0]==0):
-		paralx = get_parent().scroll_offset*-0.05
+		
 		UpdateSectors()
 		print(paralx)
 #		print(debugstr)
 		Delay[0]=20
+
 
