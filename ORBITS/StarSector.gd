@@ -13,9 +13,10 @@ var online = false
 var staramount=25
 var rng
 var test = true
+var minlen = 1000
 func _ready():
 	rng = RandomNumberGenerator.new()
-
+var displace = Vector2(1000,1000)
 func _draw():
 	for star in stars:
 		draw_circle(Vector2(star[0],star[1]),star[2],star[3])

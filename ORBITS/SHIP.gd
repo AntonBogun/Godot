@@ -97,7 +97,7 @@ func _physics_process(delta):
 	applied_torque = rotation_dir * torque *groundmult #* pressed
 	
 	var zoom = $Camera2D.zoom
-	var zoomif = (int(Input.is_action_pressed("ui_minus"))*int(zoom[0]<30)-int(Input.is_action_pressed("ui_plus"))*int(zoom[0]>0.6))*zoom[0]*0.02
+	var zoomif = (int(Input.is_action_pressed("ui_minus"))*int(zoom[0]<50)-int(Input.is_action_pressed("ui_plus"))*int(zoom[0]>1))*zoom[0]*0.02
 	$Camera2D.zoom += Vector2(zoomif,zoomif)
 	$Camera2D/YSort/Background.scale = $Camera2D.zoom
 	$Camera2D/YSort/Background.rotation = -rotation
