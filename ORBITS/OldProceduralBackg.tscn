@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ORBITS/StarSector.gd" type="Script" id=1]
+[ext_resource path="res://ORBITS/Stars.gd" type="Script" id=2]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+
+[node name="Stars" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.05, 0.05 )
+
+[node name="Node2D" type="Node2D" parent="Stars"]
+script = ExtResource( 2 )
+
+[node name="Sector" type="Polygon2D" parent="Stars/Node2D"]
+visible = false
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( 501, -501, -501, -501, -501, 501, 501, 501 )
+script = ExtResource( 1 )
+
+[node name="Sector2" type="Polygon2D" parent="."]
+visible = false
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( 501, -501, -501, -501, -501, 501, 501, 501 )
+script = ExtResource( 1 )

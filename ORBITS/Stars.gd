@@ -99,7 +99,6 @@ func _physics_process(delta):
 	if(Delay[0]==0):
 		
 		UpdateSectors()
-		print(paralx)
 #		print(debugstr)
 		Delay[0]=20
 

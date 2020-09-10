@@ -12,7 +12,6 @@
 [ext_resource path="res://ORBITS/Planet.tres" type="Shape2D" id=10]
 [ext_resource path="res://ORBITS/indivTrail.gd" type="Script" id=11]
 [ext_resource path="res://ORBITS/StarSector.gd" type="Script" id=12]
-[ext_resource path="res://ORBITS/Stars.gd" type="Script" id=13]
 [ext_resource path="res://ORBITS/FPS.gd" type="Script" id=14]
 
 [sub_resource type="PhysicsMaterial" id=1]
@@ -20,6 +19,8 @@ friction = 0.1
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 2600.0
+
+[sub_resource type="CanvasItemMaterial" id=6]
 
 [sub_resource type="PhysicsMaterial" id=3]
 friction = 0.0
@@ -158,23 +159,10 @@ script = ExtResource( 4 )
 shape = ExtResource( 10 )
 
 [node name="Sprite" type="Sprite" parent="Planet2/CollisionShape2D"]
+material = SubResource( 6 )
 position = Vector2( 5, 9.75684 )
 scale = Vector2( 0.658, 0.658 )
 texture = ExtResource( 8 )
-
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-
-[node name="Stars" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 0.05, 0.05 )
-
-[node name="Node2D" type="Node2D" parent="ParallaxBackground/Stars"]
-script = ExtResource( 13 )
-
-[node name="Sector" type="Polygon2D" parent="ParallaxBackground/Stars/Node2D"]
-visible = false
-color = Color( 0, 0, 0, 1 )
-polygon = PoolVector2Array( 501, -501, -501, -501, -501, 501, 501, 501 )
-script = ExtResource( 12 )
 
 [node name="SHIP" type="RigidBody2D" parent="." groups=[
 "SimObj",
@@ -183,6 +171,18 @@ gravity_scale = 0.0
 linear_damp = 0.0
 angular_damp = 0.4
 script = ExtResource( 2 )
+
+[node name="Sector" type="Polygon2D" parent="SHIP"]
+z_index = -3
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( 1200, -700, -1200, -700, -1200, 700, 1200, 700 )
+script = ExtResource( 12 )
+
+[node name="ActualView" type="Polygon2D" parent="SHIP"]
+visible = false
+scale = Vector2( 0.667, 0.667 )
+color = Color( 0.537255, 0.545098, 1, 1 )
+polygon = PoolVector2Array( 1562.54, 893.92, 1575.57, -868.599, -1542.05, -865.235, -1528.59, 887.193 )
 
 [node name="WD" type="Node2D" parent="SHIP"]
 z_index = 2
@@ -218,12 +218,6 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="ActualView" type="Polygon2D" parent="SHIP"]
-visible = false
-scale = Vector2( 0.5, 0.5 )
-color = Color( 0.537255, 0.545098, 1, 1 )
-polygon = PoolVector2Array( 1562.54, 893.92, 1575.57, -868.599, -1542.05, -865.235, -1528.59, 887.193 )
 
 [node name="Camera2D" type="Camera2D" parent="SHIP"]
 show_behind_parent = true
@@ -297,3 +291,5 @@ margin_bottom = 20.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Light2D" type="Light2D" parent="."]
