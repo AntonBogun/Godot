@@ -11,7 +11,8 @@ extends RigidBody2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	if !$Area2D/AreaShape == null:
+		$Area2D/AreaShape.shape.radius=sqrt(mass*100000/0.1)
 
 
 func _physics_process(delta):

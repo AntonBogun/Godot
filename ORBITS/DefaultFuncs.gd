@@ -15,13 +15,35 @@ func _ready():
 	pass # Replace with function body.
 	
 	
+func Center(_Node,_pos):
+	if _Node is Control:
+		_Node.rect_position=_pos
+	else:
+		_Node.position=_pos
+func Rotate(_Node,_angle):
+	_Node.rotation = -_angle
+func Rescale(_Node,_scale):
+	
+	if _Node is Control:
+		_Node.rect_scale=_scale
+	else:
+		_Node.scale=_scale
+func GlobalPos(obj):
+	return obj.get_global_transform()[2]
+#i want to never touch this idiocy ever again
+func GetPos(_Node):
+	if _Node is Control:
+		return _Node.rect_position
+	else:
+		return _Node.position
 #func bruh():
 #	for Planet in get_tree().get_nodes_in_group("GravObj"):
 #			print(Planet.Gravid)
 #
 #		#id != null and id != planet
 
-
+func CustomRound(num,custom):
+	return round(num*pow(10,custom))/pow(10,custom)
 
 func Grav(Globalpos,mass,id=null):
 	var Grav = Vector2()

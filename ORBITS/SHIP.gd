@@ -99,14 +99,12 @@ func _physics_process(delta):
 	
 	# "Camera resize and make global angle constant" HQ (this NEEDS to be put in a separate node or smth)
 	var zoom = $Camera2D.zoom
-	var zoomif = (int(Input.is_action_pressed("ui_minus"))*int(zoom[0]<50)-int(Input.is_action_pressed("ui_plus"))*int(zoom[0]>1))*zoom[0]*0.02
+	var zoomif = (int(Input.is_action_pressed("ui_minus"))*int(zoom[0]<500)-int(Input.is_action_pressed("ui_plus"))*int(zoom[0]>1))*zoom[0]*0.02
 	$Camera2D.zoom += Vector2(zoomif,zoomif)
 #	get_node("../ParallaxBackground/Stars/Node2D")
 #	get_node("../ParallaxBackground").scale = $Camera2D.zoom
 #	get_node("../ParallaxBackground/Stars/Node2D").position=Vector2(1920,1080)*($Camera2D.zoom[0]-1)*-0.40*get_viewport().size[0]/1536
 #	get_node("ActualView").rotation= -rotation
-	get_node("Camera2D/Node2D").rotation = -rotation
-	get_node("Camera2D/Node2D").scale = $Camera2D.zoom
 	$WD.rotation = -rotation
 	$WD.scale = $Camera2D.zoom
 	$Sector.rotation = -rotation

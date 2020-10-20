@@ -16,3 +16,6 @@ func _ready():
 #		text = str(accum1)
 #	else:
 #		text = "Toggle" # 'text' is a built-in label property.
+func _physics_process(delta):
+#	text = str(PublicFuncs.CustomRound(get_parent().get_parent().applied_force.length(),2))
+	pass
