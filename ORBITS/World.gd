@@ -13,4 +13,12 @@ func _ready():
 	#print($Planet)
 	#for Planet in get_tree().get_nodes_in_group("GravObj"):
 	#	GravArray.append(Planet)
+	#print(PublicFuncs.HexToInt("3A"))
+	var a =PublicFuncs.ArrayOverflow(51,50)
+	
+	
 
+#DefaultGray = 25252A (Panel color)
+#CodeDarkBlue = 202531 (code window color)
+#NavBallOutside = 0E0B54 (random lol)
+#proper way to do toggle of UI is in $Controls

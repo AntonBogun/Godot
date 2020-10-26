@@ -3,8 +3,8 @@ var planet
 
 
 
-var thrust = Vector2(0, -750)
-var torque = 3000
+export var thrust = Vector2(0, -750)
+export var torque = 3000
 
 
 var Exhaust = Array()
@@ -15,7 +15,7 @@ var groundmult =1
 var torquetimer=0
 var relative
 var Planethost
-var Delay
+
 
 
 
@@ -33,7 +33,7 @@ func Closest():
 #oh god this needs to change
 
 func _ready():
-	Delay=PublicFuncs.newList()
+	
 	planet = get_node("../Planet")
 	Closest()
 #	print_tree_pretty()
@@ -97,22 +97,7 @@ func _physics_process(delta):
 	
 	applied_torque = rotation_dir * torque *groundmult #* pressed
 	
-	# "Camera resize and make global angle constant" HQ (this NEEDS to be put in a separate node or smth)
-	var zoom = $Camera2D.zoom
-	var zoomif = (int(Input.is_action_pressed("ui_minus"))*int(zoom[0]<500)-int(Input.is_action_pressed("ui_plus"))*int(zoom[0]>1))*zoom[0]*0.02
-	$Camera2D.zoom += Vector2(zoomif,zoomif)
-#	get_node("../ParallaxBackground/Stars/Node2D")
-#	get_node("../ParallaxBackground").scale = $Camera2D.zoom
-#	get_node("../ParallaxBackground/Stars/Node2D").position=Vector2(1920,1080)*($Camera2D.zoom[0]-1)*-0.40*get_viewport().size[0]/1536
-#	get_node("ActualView").rotation= -rotation
-	$WD.rotation = -rotation
-	$WD.scale = $Camera2D.zoom
-	$Sector.rotation = -rotation
-	$Sector.scale = $Camera2D.zoom
-	
-	PublicFuncs.Delay(Delay,10)
-	if Delay[10]==0 && Input.is_action_pressed("ui_F1"):
-		Delay[10]=30
-		$WD.visible=!$WD.visible
+
+
 
 
