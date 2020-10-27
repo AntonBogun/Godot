@@ -47,15 +47,16 @@ func StringInvert(string):
 		l-=1
 	return string
 
-func newList():
+func NewList():
 	var list = [0]
-	for i in 10:
+	for i in 5:
 		list+=list
 	return list
 
 #decrement by 1 unless ==0
-func Delay(list,id):
-	list[id]-=int(list[id]>0)
+func Delay(v):
+	v-=int(v>0)
+	return v
 
 	pass
 func _ready():
@@ -138,3 +139,66 @@ func ArrayOverflow(N,L):
 	else:
 		n=n%l
 	return n
+
+func ApplyGrav(m,pos,area,parent=null,resetarray=Array(),gravdescribe = false):
+	var mass = float(m)
+	if (!(pos is Vector2) or !(area is Area2D)):
+		return
+	if !(parent == null):
+		if resetarray!=Array():
+			for obj in resetarray:
+				if is_instance_valid(obj[0]):
+					obj[0].applied_force+=obj[1]
+		var array = Array()
+		for obj in area.get_overlapping_bodies():
+			if obj is RigidBody2D and obj!=parent:
+				var diffpos=-obj.global_position+pos
+				var force = obj.mass/pow(diffpos.length(),2)*100000*mass
+				obj.applied_force+=force*diffpos.normalized()
+				array.append([obj,-force*diffpos.normalized()])
+				#for closest() to work
+				
+				if "gravarray" in obj and gravdescribe:
+					
+					obj.gravarray.append(parent)
+		return array
+
+
+func FitNumber(n,leng,minzer=-1):
+	minzer=max(-1,minzer)
+	var minzero=(leng-str(floor(n)).length())*int(minzer==-1)+(minzer)*int(minzer!=-1)
+	if str(n).length()<leng:
+		minzero=str(n).length()-str(floor(n)).length()
+	var e=str(floor(n)).length()
+	if leng>=e:
+		if str(n).length()>leng and minzer==-1:
+			#minzer not defined, n larger than leng
+			return ("%0."+str(leng-e-1*int(leng!=e))+"f")%n
+		elif minzer==-1:
+			#minzer not defined, n smaller than leng
+			return ("%0."+str(minzero-1)+"f")%n
+		else:
+			#minzer defined
+			return ("%0."+str(min(minzer,leng-str(floor(n)).length()-1) )+"f")%n
+	var E = str(e-1).length()+2
+	var n2=n/pow(10,e-1)
+	var final = str((("%0."+str(max(leng-E-1,0))+"f")%n2)+"E"+str(e-1))
+	if minzero>=0:
+		return ("%0."+str(int(minzero))+"f")%n
+	else:
+		return final
+#this is dark magic, dont even try to understand.
+
+
+func FindClosest(objarray,pos):
+	var closest
+	var closestist
+	for obj in objarray:
+		if closestist==null:
+			closestist=(obj.global_position-pos).length()
+			closest=obj
+			continue
+		if closestist>(obj.global_position-pos).length():
+			closestist=(obj.global_position-pos).length()
+			closest=obj
+	return closest

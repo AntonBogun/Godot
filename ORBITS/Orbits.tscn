@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://ORBITS/Label.gd" type="Script" id=1]
 [ext_resource path="res://ORBITS/SHIP.gd" type="Script" id=2]
@@ -19,6 +19,10 @@
 [ext_resource path="res://ORBITS/NavBall.gd" type="Script" id=17]
 [ext_resource path="res://ORBITS/NavBallMarks.gd" type="Script" id=18]
 [ext_resource path="res://ORBITS/VelocityArrow.gd" type="Script" id=19]
+[ext_resource path="res://ORBITS/ParentArrow.gd" type="Script" id=20]
+[ext_resource path="res://ORBITS/AccelerationArrow.gd" type="Script" id=21]
+[ext_resource path="res://ORBITS/ExhaustDraw.gd" type="Script" id=22]
+[ext_resource path="res://Fonts/Roboto/NavBallLabelsRoboto.tres" type="DynamicFont" id=23]
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.1
@@ -28,14 +32,15 @@ radius = 2600.0
 
 [sub_resource type="CanvasItemMaterial" id=3]
 
+[sub_resource type="CircleShape2D" id=7]
+radius = 75.0
+
 [sub_resource type="PhysicsMaterial" id=4]
 friction = 0.0
 bounce = 0.4
 
 [sub_resource type="CircleShape2D" id=5]
 radius = 13.3131
-
-[sub_resource type="CanvasItemMaterial" id=6]
 
 [node name="World" type="Node" groups=[
 "WORLD",
@@ -56,7 +61,6 @@ __meta__ = {
 }
 
 [node name="DEBUG" type="Panel" parent="."]
-visible = false
 margin_left = -134.362
 margin_top = 46.166
 margin_right = 170.638
@@ -172,6 +176,16 @@ linear_damp = 0.0
 angular_velocity = 30.0
 script = ExtResource( 4 )
 
+[node name="Area2D" type="Area2D" parent="Planet2"]
+visible = false
+gravity_distance_scale = 0.01
+gravity = 1024.0
+linear_damp = 0.0
+angular_damp = 0.0
+
+[node name="AreaShape" type="CollisionShape2D" parent="Planet2/Area2D"]
+shape = SubResource( 2 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Planet2"]
 shape = ExtResource( 10 )
 
@@ -188,9 +202,6 @@ gravity_scale = 0.0
 linear_damp = 0.0
 angular_damp = 0.4
 script = ExtResource( 2 )
-
-[node name="WD" type="Node2D" parent="SHIP"]
-z_index = 2
 
 [node name="Camera2D" type="Camera2D" parent="SHIP"]
 show_behind_parent = true
@@ -266,26 +277,93 @@ polygon = PoolVector2Array( 960, 540, 960, -540, -960, -540, -960, 540 )
 position = Vector2( 0, 310 )
 scale = Vector2( 1.5, 1.5 )
 color = Color( 0.12549, 0.145098, 0.192157, 1 )
-polygon = PoolVector2Array( -200, 81, -100, -81, 100, -81, 200, 81 )
+polygon = PoolVector2Array( -200, 81, -150, -81, 150, -81, 200, 81 )
 
 [node name="NavBall" type="Node2D" parent="SHIP/Camera2D/UI/InfoPanel"]
 script = ExtResource( 17 )
+
+[node name="AccelerationLabel" type="RichTextLabel" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
+margin_left = 76.1101
+margin_top = -11.2599
+margin_right = 467.11
+margin_bottom = 168.74
+rect_scale = Vector2( 0.25, 0.25 )
+custom_fonts/normal_font = ExtResource( 23 )
+custom_colors/default_color = Color( 0.87451, 1, 0, 1 )
+custom_colors/selection_color = Color( 0, 0, 0, 1 )
+text = "Acceleration:
+1234567890"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ParentLabel" type="RichTextLabel" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
+margin_left = 72.0045
+margin_top = 34.5005
+margin_right = 493.005
+margin_bottom = 214.501
+rect_scale = Vector2( 0.25, 0.25 )
+custom_fonts/normal_font = ExtResource( 23 )
+custom_colors/default_color = Color( 0.87451, 1, 0, 1 )
+custom_colors/selection_color = Color( 0, 0, 0, 1 )
+text = "Dist to planet:
+12345678901"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VelocityLabel" type="RichTextLabel" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
+margin_left = 70.0
+margin_top = -78.0
+margin_right = 408.0
+margin_bottom = 102.0
+rect_scale = Vector2( 0.25, 0.25 )
+custom_fonts/normal_font = ExtResource( 23 )
+custom_colors/default_color = Color( 0.87451, 1, 0, 1 )
+custom_colors/selection_color = Color( 0, 0, 0, 1 )
+text = "Velocity:
+123456789"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="NavBallMarks" type="Node2D" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
 z_index = 3
 script = ExtResource( 18 )
 amount = 72
+color = Color( 0.337255, 0, 1, 1 )
 arrow = [ Vector2( 0, -72 ), Vector2( 9, -64 ), Vector2( -9, -64 ) ]
 
 [node name="VelocityArrow" type="Polygon2D" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
 scale = Vector2( 1, 1 )
+color = Color( 0, 0.952941, 1, 1 )
 polygon = PoolVector2Array( 0, -60, -15, -50, 15, -50 )
 script = ExtResource( 19 )
 
+[node name="ParentArrow" type="Polygon2D" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
+scale = Vector2( 1, 1 )
+color = Color( 0, 1, 0.25098, 1 )
+polygon = PoolVector2Array( 0, -38, -8, -32, 8, -32 )
+script = ExtResource( 20 )
+
+[node name="AccelerationArrow" type="Polygon2D" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
+scale = Vector2( 1, 1 )
+color = Color( 0.87451, 1, 0, 1 )
+polygon = PoolVector2Array( 0, -48, -12, -40, 12, -40 )
+script = ExtResource( 21 )
+
+[node name="NavBallVisual" type="Area2D" parent="SHIP/Camera2D/UI/InfoPanel"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SHIP/Camera2D/UI/InfoPanel/NavBallVisual"]
+shape = SubResource( 7 )
+disabled = true
+
 [node name="Background" type="Node2D" parent="SHIP/Camera2D"]
+visible = false
 z_index = -1
 
 [node name="Sector" type="Polygon2D" parent="SHIP/Camera2D/Background"]
+position = Vector2( 0, -0.793701 )
 color = Color( 0, 0, 0, 1 )
 polygon = PoolVector2Array( 1200, -700, -1200, -700, -1200, 700, 1200, 700 )
 script = ExtResource( 12 )
@@ -300,6 +378,7 @@ __meta__ = {
 }
 
 [node name="Exhaust" type="RigidBody2D" parent="SHIP"]
+visible = false
 position = Vector2( 0, 30 )
 mass = 0.01
 physics_material_override = SubResource( 4 )
@@ -307,16 +386,12 @@ linear_damp = 0.0
 script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SHIP/Exhaust"]
-visible = false
 scale = Vector2( 0.5, 0.5 )
 shape = SubResource( 5 )
 disabled = true
 
-[node name="Polygon2D" type="Polygon2D" parent="SHIP/Exhaust/CollisionShape2D"]
-material = SubResource( 6 )
-position = Vector2( 0, -1 )
-color = Color( 1, 0.996078, 0, 1 )
-polygon = PoolVector2Array( -0.0162964, -13.8881, 10.0157, -9.81919, 14.146, 0.431513, 9.91425, 9.61891, 0.170044, 14.1848, -9.76768, 10.1747, -13.9068, 0.00234985, -9.76768, -9.9595 )
+[node name="Node2D" type="Node2D" parent="SHIP/Exhaust/CollisionShape2D"]
+script = ExtResource( 22 )
 
 [node name="Ship" type="CollisionPolygon2D" parent="SHIP"]
 scale = Vector2( 0.5, 0.5 )

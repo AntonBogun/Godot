@@ -10,6 +10,8 @@ export var size = 72
 export var ratio = 0.9
 export var color = Color(1,1,1)
 export var arrow=[Vector2(0,-72),Vector2(5,-67),Vector2(-5,-67)]
+var sidearrows1 = [Vector2(-10,-70),Vector2(-12,-61),Vector2(-17,-61)]
+var sidearrows2 = [Vector2(10,-70),Vector2(12,-61),Vector2(17,-61)]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -27,6 +29,8 @@ func _draw():
 		draw_polygon(arr,PublicFuncs.ArrayFill(4,color))
 	
 	draw_polygon(arrow,PublicFuncs.ArrayFill(3,color))
+	draw_polygon(sidearrows1,PublicFuncs.ArrayFill(3,color))
+	draw_polygon(sidearrows2,PublicFuncs.ArrayFill(3,color))
 func _physics_process(delta):
 	rotation = get_node("../../../../..").global_rotation
 # Called every frame. 'delta' is the elapsed time since the previous frame.

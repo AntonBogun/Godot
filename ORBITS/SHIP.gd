@@ -6,7 +6,7 @@ var planet
 export var thrust = Vector2(0, -750)
 export var torque = 3000
 
-
+var gravarray=Array()
 var Exhaust = Array()
 var Ereload = 0
 var Ecount = 0
@@ -15,10 +15,8 @@ var groundmult =1
 var torquetimer=0
 var relative
 var Planethost
-
-
-
-
+var previousforce=Vector2()
+var externalforce=Vector2()
 func Closest():
 	relative = null
 	for _Planet in get_tree().get_nodes_in_group("GravObj"):
@@ -56,7 +54,9 @@ func _physics_process(delta):
 #	step+=1
 #	update()
 	# thrust and turning
-	
+
+	externalforce=applied_force-previousforce
+	#print(applied_force)
 	applied_force = Vector2()
 	if Input.is_action_pressed("ui_up"):
 		applied_force += thrust.rotated(rotation)
@@ -83,7 +83,7 @@ func _physics_process(delta):
 		pressed = 1
 
 	#gravity
-	applied_force += PublicFuncs.Grav(position,mass,self)
+	#applied_force += PublicFuncs.Grav(position,mass,self)
 	
 	
 	#torque contraption
@@ -96,7 +96,11 @@ func _physics_process(delta):
 		groundmult = 1+applied_force.length()/torque*30
 	
 	applied_torque = rotation_dir * torque *groundmult #* pressed
-	
+	previousforce=applied_force
+	applied_force+=externalforce
+	if gravarray!=Array():
+		$Camera2D.parent=PublicFuncs.FindClosest(gravarray,global_position)
+	gravarray=Array()
 
 
 

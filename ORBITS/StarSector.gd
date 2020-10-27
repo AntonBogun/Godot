@@ -7,7 +7,7 @@ extends Polygon2D
 var cull = false
 var rngseed
 var stars=Array()
-var Delay=PublicFuncs.newList()
+var Delay=PublicFuncs.NewList()
 var online = true
 var staramount=120
 var rng

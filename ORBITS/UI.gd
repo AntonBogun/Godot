@@ -7,8 +7,9 @@ extends Camera2D
 var Delay
 var Hold
 var zoomfix
+var parent
 func _ready():
-	Delay=PublicFuncs.newList()
+	Delay=PublicFuncs.NewList()
 #	UI = get_tree().get_nodes_in_group("UI")
 #	for obj in UI:
 #		UIOffset.append(PublicFuncs.GetPos(obj))
@@ -30,14 +31,14 @@ func _physics_process(delta):
 	$Background.scale=zoom
 	$UI.scale=zoom
 	
-	PublicFuncs.Delay(Delay,0)
+	Delay[0]=PublicFuncs.Delay(Delay[0])
 	if Delay[0]==0 && Input.is_action_pressed("ui_F2")&&!Hold:
 		Delay[0]=5
 		$UI.visible=!$UI.visible
 		Hold = true
 	if !Input.is_action_pressed("ui_F2"):
 		Hold = false
-
+	
 #old shit that was left from the moving background and when camera script was on the ship.
 #	get_node("../ParallaxBackground/Stars/Node2D")
 #	get_node("../ParallaxBackground").scale = $Camera2D.zoom

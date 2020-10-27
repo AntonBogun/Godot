@@ -7,12 +7,11 @@ extends RigidBody2D
 var init = true
 var online = false
 var speed = 500
-var color
 var time = 0
 var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready(): # Replace with function body.
-	rng.randomize()
+  rng.randomize()
 
 
 
@@ -22,15 +21,13 @@ func _process(delta):
 		var parentpos = get_node("..").position
 		var globalpos = position.rotated(angle)+parentpos
 		applied_force = PublicFuncs.Grav(globalpos,mass)
-		if (time%5==0 and $CollisionShape2D/Polygon2D.color[1]!=0):
-			$CollisionShape2D/Polygon2D.color -= Color(0.004,0.008,0,0)
-			$CollisionShape2D.scale += Vector2(0.1,0.1)
 		
-		time += 1
-		
-#		if($CollisionShape2D/Polygon2D.color[1] != 0):
-##			$CollisionShape2D/Polygon2D.color -= Color(1,2,0,0)
-#		el
+		$CollisionShape2D/Node2D.color -= Color(0.004/2.5,0.008/2.5,0,0)
+		$CollisionShape2D.scale += Vector2(0.15/5,0.15/5)
+		time+=1
+#   if($CollisionShape2D/Polygon2D.color[1] != 0):
+##      $CollisionShape2D/Polygon2D.color -= Color(1,2,0,0)
+#   el
 		if(time==600):
 			queue_free()
 		if (init):
@@ -38,5 +35,6 @@ func _process(delta):
 			linear_velocity = get_node("..").linear_velocity-Vector2(speed*cos(rotat-PI/2),speed*sin(rotat-PI/2))+Vector2(rng.randf_range(-300,300),rng.randf_range(-300,300))
 			position = Vector2(0,50)
 			$CollisionShape2D.disabled = false
-			$CollisionShape2D.visible = true
-		init = false
+			visible = true
+			init = false
+

@@ -5,6 +5,7 @@ extends Polygon2D
 # var a = 2
 # var b = "text"
 
+var Delay
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -13,12 +14,10 @@ func _ready():
 func _physics_process(delta):
 	if get_node("../../../..").parent!=null:
 		visible=true
-		var vel = get_node("../../../..").parent.linear_velocity-PublicFuncs.ParentFind(RigidBody2D,self).linear_velocity
-		rotation = atan2(vel.y,vel.x)-PI/2
-		if vel.length()<5:
-			visible=false
-		get_node("../VelocityLabel").text="Velocity:\n"+PublicFuncs.FitNumber(vel.length(),9,2)
-		if PublicFuncs.FitNumber(vel.length(),9,2).length()>6:
-			print(vel.length())
+		var parent=get_node("../../../..").parent
+		var lng=parent.global_position-PublicFuncs.ParentFind(RigidBody2D,self).global_position
+		rotation = atan2(lng.y,lng.x)+PI/2
+		
+		pass
 	else:
 		visible=false

@@ -7,16 +7,20 @@ extends Node
 #var GravObj
 #var GravArray = Array()
 #var i = 0
+var Delay
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Delay=PublicFuncs.NewList()
+	Delay[0]=60
 	$SHIP.planet = $Planet # Replace with function body.
 	#print($Planet)
 	#for Planet in get_tree().get_nodes_in_group("GravObj"):
 	#	GravArray.append(Planet)
 	#print(PublicFuncs.HexToInt("3A"))
-	var a =PublicFuncs.ArrayOverflow(51,50)
+	pass
 	
-	
+
+
 
 #DefaultGray = 25252A (Panel color)
 #CodeDarkBlue = 202531 (code window color)
