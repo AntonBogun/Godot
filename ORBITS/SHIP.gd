@@ -5,7 +5,8 @@ var planet
 
 export var thrust = Vector2(0, -750)
 export var torque = 3000
-
+var throttle=0
+var throttletoggle=false
 var gravarray=Array()
 var Exhaust = Array()
 var Ereload = 0
@@ -17,7 +18,9 @@ var relative
 var Planethost
 var previousforce=Vector2()
 var externalforce=Vector2()
+var Delay
 func Closest():
+	Delay=PublicFuncs.NewList()
 	relative = null
 	for _Planet in get_tree().get_nodes_in_group("GravObj"):
 			var prerelative = Vector2(_Planet.position-position).length()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://ORBITS/Label.gd" type="Script" id=1]
 [ext_resource path="res://ORBITS/SHIP.gd" type="Script" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://ORBITS/AccelerationArrow.gd" type="Script" id=21]
 [ext_resource path="res://ORBITS/ExhaustDraw.gd" type="Script" id=22]
 [ext_resource path="res://Fonts/Roboto/NavBallLabelsRoboto.tres" type="DynamicFont" id=23]
+[ext_resource path="res://ORBITS/ThrottleToggle.gd" type="Script" id=24]
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.1
@@ -279,6 +280,23 @@ scale = Vector2( 1.5, 1.5 )
 color = Color( 0.12549, 0.145098, 0.192157, 1 )
 polygon = PoolVector2Array( -200, 81, -150, -81, 150, -81, 200, 81 )
 
+[node name="Throttle" type="Polygon2D" parent="SHIP/Camera2D/UI/InfoPanel"]
+position = Vector2( -100, 0 )
+scale = Vector2( 1, 1 )
+color = Color( 0, 0.027451, 0.45098, 1 )
+polygon = PoolVector2Array( -70, 70, 17, 70, 17, -70, -30, -70, -70, 30 )
+
+[node name="Gradient" type="Polygon2D" parent="SHIP/Camera2D/UI/InfoPanel/Throttle"]
+color = Color( 0, 0.0313726, 0.517647, 1 )
+polygon = PoolVector2Array( -10, 64, 10, 64, 10, -64, -10, -64 )
+vertex_colors = PoolColorArray( 0.0431373, 0, 1, 1, 0, 0.0980392, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1 )
+
+[node name="Polygon2D" type="Polygon2D" parent="SHIP/Camera2D/UI/InfoPanel/Throttle"]
+position = Vector2( -48.7688, 15.9862 )
+color = Color( 0.192157, 0.211765, 0.4, 1 )
+polygon = PoolVector2Array( -10, 10, 10, 10, 10, -10, -10, -10 )
+script = ExtResource( 24 )
+
 [node name="NavBall" type="Node2D" parent="SHIP/Camera2D/UI/InfoPanel"]
 script = ExtResource( 17 )
 
@@ -298,13 +316,13 @@ __meta__ = {
 }
 
 [node name="ParentLabel" type="RichTextLabel" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
-margin_left = 72.0045
-margin_top = 34.5005
-margin_right = 493.005
-margin_bottom = 214.501
+margin_left = 74.8075
+margin_top = 33.6597
+margin_right = 495.808
+margin_bottom = 213.66
 rect_scale = Vector2( 0.25, 0.25 )
 custom_fonts/normal_font = ExtResource( 23 )
-custom_colors/default_color = Color( 0.87451, 1, 0, 1 )
+custom_colors/default_color = Color( 0, 1, 0.156863, 1 )
 custom_colors/selection_color = Color( 0, 0, 0, 1 )
 text = "Dist to planet:
 12345678901"
@@ -313,13 +331,13 @@ __meta__ = {
 }
 
 [node name="VelocityLabel" type="RichTextLabel" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
-margin_left = 70.0
-margin_top = -78.0
-margin_right = 408.0
-margin_bottom = 102.0
+margin_left = 77.2878
+margin_top = -60.6215
+margin_right = 415.288
+margin_bottom = 119.379
 rect_scale = Vector2( 0.25, 0.25 )
 custom_fonts/normal_font = ExtResource( 23 )
-custom_colors/default_color = Color( 0.87451, 1, 0, 1 )
+custom_colors/default_color = Color( 0, 1, 1, 1 )
 custom_colors/selection_color = Color( 0, 0, 0, 1 )
 text = "Velocity:
 123456789"
@@ -331,7 +349,7 @@ __meta__ = {
 z_index = 3
 script = ExtResource( 18 )
 amount = 72
-color = Color( 0.337255, 0, 1, 1 )
+color = Color( 0.85098, 0, 1, 1 )
 arrow = [ Vector2( 0, -72 ), Vector2( 9, -64 ), Vector2( -9, -64 ) ]
 
 [node name="VelocityArrow" type="Polygon2D" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
@@ -359,7 +377,6 @@ shape = SubResource( 7 )
 disabled = true
 
 [node name="Background" type="Node2D" parent="SHIP/Camera2D"]
-visible = false
 z_index = -1
 
 [node name="Sector" type="Polygon2D" parent="SHIP/Camera2D/Background"]

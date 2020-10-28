@@ -157,7 +157,6 @@ func ApplyGrav(m,pos,area,parent=null,resetarray=Array(),gravdescribe = false):
 				obj.applied_force+=force*diffpos.normalized()
 				array.append([obj,-force*diffpos.normalized()])
 				#for closest() to work
-				
 				if "gravarray" in obj and gravdescribe:
 					
 					obj.gravarray.append(parent)
@@ -193,6 +192,8 @@ func FitNumber(n,leng,minzer=-1):
 func FindClosest(objarray,pos):
 	var closest
 	var closestist
+	if objarray==Array():
+		return null
 	for obj in objarray:
 		if closestist==null:
 			closestist=(obj.global_position-pos).length()

@@ -15,10 +15,12 @@ func _physics_process(delta):
 		visible=true
 		var vel = get_node("../../../..").parent.linear_velocity-PublicFuncs.ParentFind(RigidBody2D,self).linear_velocity
 		rotation = atan2(vel.y,vel.x)-PI/2
+		get_node("../VelocityLabel").text="Velocity:\n"+PublicFuncs.FitNumber(vel.length()/10,9,2)
 		if vel.length()<5:
 			visible=false
-		get_node("../VelocityLabel").text="Velocity:\n"+PublicFuncs.FitNumber(vel.length(),9,2)
-		if PublicFuncs.FitNumber(vel.length(),9,2).length()>6:
-			print(vel.length())
+			get_node("../VelocityLabel").text="Velocity:\n0"
+		
+		
 	else:
 		visible=false
+		get_node("../VelocityLabel").text="Velocity:\n0"

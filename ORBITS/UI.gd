@@ -8,6 +8,7 @@ var Delay
 var Hold
 var zoomfix
 var parent
+var throttle
 func _ready():
 	Delay=PublicFuncs.NewList()
 #	UI = get_tree().get_nodes_in_group("UI")
