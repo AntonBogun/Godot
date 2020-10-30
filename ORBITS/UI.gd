@@ -9,6 +9,7 @@ var Hold
 var zoomfix
 var parent
 var throttle
+var UIfix
 func _ready():
 	Delay=PublicFuncs.NewList()
 #	UI = get_tree().get_nodes_in_group("UI")
@@ -16,8 +17,10 @@ func _ready():
 #		UIOffset.append(PublicFuncs.GetPos(obj))
 	
 	#print(get_viewport().size)
-	zoomfix = Vector2(get_viewport().size.x/1536,get_viewport().size.y/864)*1.25
-	zoom = zoom*zoomfix
+	zoomfix = Vector2(get_viewport().size.x/1536,get_viewport().size.y/864)*0.8
+	UIfix=Vector2(get_viewport().size.x/1536,get_viewport().size.y/864)
+	zoom = zoom/zoomfix
+	
 	pass
 	
 
@@ -29,9 +32,8 @@ func _physics_process(delta):
 	zoom += Vector2(zoomif,zoomif)
 	
 	rotation = -get_parent().global_rotation
-	$Background.scale=zoom
-	$UI.scale=zoom
-	
+	$Background.scale=zoom*UIfix
+	$UI.scale=zoom*UIfix
 	Delay[0]=PublicFuncs.Delay(Delay[0])
 	if Delay[0]==0 && Input.is_action_pressed("ui_F2")&&!Hold:
 		Delay[0]=5

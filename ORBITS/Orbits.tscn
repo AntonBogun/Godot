@@ -33,14 +33,14 @@ radius = 2600.0
 
 [sub_resource type="CanvasItemMaterial" id=3]
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CircleShape2D" id=4]
 radius = 75.0
 
-[sub_resource type="PhysicsMaterial" id=4]
+[sub_resource type="PhysicsMaterial" id=5]
 friction = 0.0
 bounce = 0.4
 
-[sub_resource type="CircleShape2D" id=5]
+[sub_resource type="CircleShape2D" id=6]
 radius = 13.3131
 
 [node name="World" type="Node" groups=[
@@ -204,6 +204,12 @@ linear_damp = 0.0
 angular_damp = 0.4
 script = ExtResource( 2 )
 
+[node name="ActualView2" type="Polygon2D" parent="SHIP"]
+visible = false
+scale = Vector2( 0.8, 0.8 )
+color = Color( 0.537255, 0.545098, 1, 1 )
+polygon = PoolVector2Array( 960, 540, 960, -540, -960, -540, -960, 540 )
+
 [node name="Camera2D" type="Camera2D" parent="SHIP"]
 show_behind_parent = true
 current = true
@@ -282,7 +288,6 @@ polygon = PoolVector2Array( -200, 81, -150, -81, 150, -81, 200, 81 )
 
 [node name="Throttle" type="Polygon2D" parent="SHIP/Camera2D/UI/InfoPanel"]
 position = Vector2( -100, 0 )
-scale = Vector2( 1, 1 )
 color = Color( 0, 0.027451, 0.45098, 1 )
 polygon = PoolVector2Array( -70, 70, 17, 70, 17, -70, -30, -70, -70, 30 )
 
@@ -353,19 +358,16 @@ color = Color( 0.85098, 0, 1, 1 )
 arrow = [ Vector2( 0, -72 ), Vector2( 9, -64 ), Vector2( -9, -64 ) ]
 
 [node name="VelocityArrow" type="Polygon2D" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
-scale = Vector2( 1, 1 )
 color = Color( 0, 0.952941, 1, 1 )
 polygon = PoolVector2Array( 0, -60, -15, -50, 15, -50 )
 script = ExtResource( 19 )
 
 [node name="ParentArrow" type="Polygon2D" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
-scale = Vector2( 1, 1 )
 color = Color( 0, 1, 0.25098, 1 )
 polygon = PoolVector2Array( 0, -38, -8, -32, 8, -32 )
 script = ExtResource( 20 )
 
 [node name="AccelerationArrow" type="Polygon2D" parent="SHIP/Camera2D/UI/InfoPanel/NavBall"]
-scale = Vector2( 1, 1 )
 color = Color( 0.87451, 1, 0, 1 )
 polygon = PoolVector2Array( 0, -48, -12, -40, 12, -40 )
 script = ExtResource( 21 )
@@ -373,7 +375,7 @@ script = ExtResource( 21 )
 [node name="NavBallVisual" type="Area2D" parent="SHIP/Camera2D/UI/InfoPanel"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SHIP/Camera2D/UI/InfoPanel/NavBallVisual"]
-shape = SubResource( 7 )
+shape = SubResource( 4 )
 disabled = true
 
 [node name="Background" type="Node2D" parent="SHIP/Camera2D"]
@@ -398,13 +400,13 @@ __meta__ = {
 visible = false
 position = Vector2( 0, 30 )
 mass = 0.01
-physics_material_override = SubResource( 4 )
+physics_material_override = SubResource( 5 )
 linear_damp = 0.0
 script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SHIP/Exhaust"]
 scale = Vector2( 0.5, 0.5 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 disabled = true
 
 [node name="Node2D" type="Node2D" parent="SHIP/Exhaust/CollisionShape2D"]
@@ -416,6 +418,7 @@ polygon = PoolVector2Array( -50, 35, 50, 35, 0, -80 )
 
 [node name="Polygon2D" type="Polygon2D" parent="SHIP/Ship"]
 color = Color( 0, 0.929412, 1, 1 )
+antialiased = true
 polygon = PoolVector2Array( -50, 35, 50, 35, 0, -80 )
 
 [node name="Trails" type="Node2D" parent="."]
