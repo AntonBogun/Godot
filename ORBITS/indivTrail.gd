@@ -11,6 +11,7 @@ func _ready(): # Replace with function body.
 	pass
 
 #asdaidpiaspdi INSTANCE
+#-dude what???
 
 func _process(delta):
 	if(online):

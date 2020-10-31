@@ -5,7 +5,8 @@ extends Node2D
 # var a = 2
 # var b = "text"
 var skip = 10
-
+var Delay
+var Hold
 var delay = 0
 var toggledelay=0
 var DRAWdelay = 0
@@ -19,40 +20,76 @@ var templine = 0
 var ConstantUpdate=false
 var tempconstant=0
 var tempupdate=0
+var tick = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	SimObj = get_tree().get_nodes_in_group("SimObj")
+	Delay=PublicFuncs.NewList()
+	Hold=PublicFuncs.NewList()
 
 func state():
 	list.clear()
 	if(state.size()<SimObj.size()):
 		for _i in range(SimObj.size()-state.size()):
 			state.append(null)
+			#make sure array is long enough
 	var i = 0
 	for Obj in SimObj:
-		state[i]=[Obj.position,Obj.linear_velocity,Obj.mass,Obj.is_in_group("GravObj"),]
+		if Obj.is_in_group("GravObj"):
+			state[i]=[Obj.global_position,Obj.linear_velocity,Array(),Obj.mass,true,Obj.gravradius*1.25]
+		else:
+			state[i]=[Obj.global_position,Obj.linear_velocity,Array(),Obj.mass,false]
 		i+=1
+	for obj1 in state:
+		var soi=Array()
+		var i1 = 0
+		for obj2 in state:
+			if obj2[4]:
+				
+				if (obj1[0]-obj2[0]).length()<obj2[5]:
+					soi.append(i1)
+				i1+=1
+		obj1[2]=soi
 	list.append(state)
+#0-position,1-velocity,2-mass,3-precise SOI array,4-grav?,5-grav radius
+
+func precisionsoi(pos,posarray):
+	var soi=Array()
+	var i1 = 0
+	for obj2 in state:
+		if obj2[4]:
+			if (pos-posarray[i1][0]).length()<obj2[5]:
+				soi.append(i1)
+			i1+=1
+	return soi
 
 
-
-func addtick():
+func addtick(tick):
 	#start of tick
 	var tempstate = Array()
 	var i = 0
+	
+	if tick%60==0:
+		for obj in list[list.size()-1]:
+			obj[2]=precisionsoi(obj[0],list[list.size()-1])
+	if list.size()>2:
+		for obj in list[list.size()-2]:
+			obj=obj[0]
+	#avoid death
 	for Obj in list[list.size()-1]:
 		#line segment addition
 		
 		var Grav = Vector2()
-		var i1 = 0
-		for GravObj in list[list.size()-1]:
-			if (state[i1][3] and i!=i1):
-				var pos = GravObj[0] - Obj[0]
-				var streng = state[i1][2]/pow(pos.length(),2)*100000*state[i][2]
-				Grav += Vector2(pos[0]/pos.length()*streng,pos[1]/pos.length()*streng)/state[i][2]*timescale
+		
+		for id in Obj[2]:
+			var GravObj=list[list.size()-1][id]
+			if (state[id][4] and i!=id):
+				if (Obj[0]-GravObj[0]).length()<state[id][5]:
+					var pos = GravObj[0] - Obj[0]
+					var streng = state[id][3]/pow(pos.length(),2)*100000*state[i][3]
+					Grav += Vector2(pos[0]/pos.length()*streng,pos[1]/pos.length()*streng)/state[i][3]*timescale
 				
-			i1+=1
-		tempstate.append([Obj[0]+Obj[1]*timescale+Grav*timescale,Obj[1]+Grav])
+		tempstate.append([Obj[0]+Obj[1]*timescale+Grav*timescale,Obj[1]+Grav,Obj[2]])
 		i+=1
 		
 	list.append(tempstate)
@@ -60,7 +97,7 @@ func addtick():
 	
 
 func DRAW():
-	#PLEASE MAKE IT NOT FUCK ITSELF WHEN THE AMOUNT OF SIMOBJS DECREASES LATER ON (idk i think its solved but uiaoduqiu)
+	#PLEASE MAKE IT NOT FUCK ITSELF WHEN THE AMOUNT OF SIMOBJS DECREASES LATER ON (idk i think its solved but uiaoduqiu) #dude i dont care lmao
 	templine=0
 	if	Lines[0]!=null:
 		for trail in Lines:
@@ -72,7 +109,7 @@ func DRAW():
 		if Lines.size()<SimObj.size()+1:
 			Lines.append(null)
 		Lines[templine]=$Trail.duplicate()
-		call_deferred("add_child", Lines[templine])#NOTE: CHANGE TO INSTANCE BCAUSE AAAAAAAAA
+		call_deferred("add_child", Lines[templine])#NOTE: CHANGE TO INSTANCE BCAUSE AAAAAAAAA #-u dum, its already instanced (duplication is smort)
 		var line = Array()
 		var i = 0
 		for tick in list:
@@ -82,7 +119,7 @@ func DRAW():
 				break
 			i=min(list.size()-1,i+skip)
 		Lines[templine].line=line
-		Lines[templine].mass=state[templine][2]
+		Lines[templine].mass=state[templine][3]
 		Lines[templine].online=true
 		templine+=1
 func _draw():
@@ -114,7 +151,8 @@ func _physics_process(delta):
 		if(!list.empty()):
 			if list.size()<30000:
 				for i in 10:
-					addtick()
+					addtick(Delay[0])
+					Delay[0]=PublicFuncs.Delay(Delay[0])+int(Delay[0]==0)*59
 			if(!bool(DRAWdelay)):
 				DRAW()                # INSTANCE BRUH MOMENT
 				DRAWdelay=10
@@ -132,3 +170,11 @@ func _physics_process(delta):
 		tempconstant=10
 	tempconstant-= int(tempconstant>0)
 	tempupdate-=int(tempupdate>0)
+	
+#	Delay[0]=PublicFuncs.Delay(Delay[0])
+#	if Delay[0]==0 && Input.is_action_pressed("ui_f")&&!Hold[0]==0:
+#		Delay[0]=6
+#		renew=true
+#		Hold[0] = 1
+#	if !Input.is_action_pressed("ui_f"):
+#		Hold[0] = 0

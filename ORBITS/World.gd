@@ -11,8 +11,6 @@ var Delay
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Delay=PublicFuncs.NewList()
-	Delay[0]=60
-	$SHIP.planet = $Planet # Replace with function body.
 	#print($Planet)
 	#for Planet in get_tree().get_nodes_in_group("GravObj"):
 	#	GravArray.append(Planet)
@@ -28,3 +26,13 @@ func _ready():
 #CodeDarkBlue = 202531 (code window color)
 #NavBallOutside = 0E0B54 (random lol)
 #proper way to do toggle of UI is in $Controls
+#
+#How to do toggles without BRRRRRRRRRR
+#
+#Delay[0]=PublicFuncs.Delay(Delay[0])
+#	if Delay[0]==0 && Input.is_action_pressed()&&!Hold[0]==0:
+#		Delay[0]=6
+#		DoStuff()
+#		Hold[0] = 1
+#	if !Input.is_action_pressed():
+#		Hold[0] = 0

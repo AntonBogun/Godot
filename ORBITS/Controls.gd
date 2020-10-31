@@ -14,7 +14,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	PublicFuncs.Delay(Delay[0])
+	Delay[0]=PublicFuncs.Delay(Delay[0])
 	if Delay[0]==0 && Input.is_action_pressed("ui_F1")&&!Hold:
 		Delay[0]=5
 		visible=!visible

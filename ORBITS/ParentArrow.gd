@@ -21,5 +21,5 @@ func _physics_process(delta):
 		
 		pass
 	else:
-		get_node("../ParentLabel").text="Dist to planet:\n0"
+		get_node("../ParentLabel").text="Dist to body:\n0"
 		visible=false
