@@ -15,7 +15,6 @@ func _ready():
 	#for Planet in get_tree().get_nodes_in_group("GravObj"):
 	#	GravArray.append(Planet)
 	#print(PublicFuncs.HexToInt("3A"))
-	print(get_viewport().size)
 	pass
 	
 	

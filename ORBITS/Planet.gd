@@ -30,7 +30,8 @@ func _ready():
 	mass=masss
 	Delay = PublicFuncs.NewList()
 	
-	if !$Area2D/AreaShape == null:
+	if !($Area2D/AreaShape == null):
+		$Area2D/AreaShape.shape=$Area2D/AreaShape.shape.duplicate()
 		$Area2D/AreaShape.shape.radius=gravradius
 	
 

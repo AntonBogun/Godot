@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://ORBITS/Label.gd" type="Script" id=1]
 [ext_resource path="res://ORBITS/SHIP.gd" type="Script" id=2]
@@ -27,6 +27,7 @@
 [ext_resource path="res://ORBITS/Gradient.gd" type="Script" id=25]
 [ext_resource path="res://ORBITS/White.png" type="Texture" id=26]
 [ext_resource path="res://ORBITS/PlanetColor.tres" type="Material" id=27]
+[ext_resource path="res://ORBITS/cursed.png" type="Texture" id=28]
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.1
@@ -144,12 +145,12 @@ polygon = PoolVector2Array( 1385.77, 422.631, -649.864, 421.964, -650.037, -767.
 "GravObj",
 "SimObj",
 ]]
-position = Vector2( 2298.39, -48.9954 )
+position = Vector2( 17974.7, 79.1491 )
 mass = 20000.0
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 can_sleep = false
-linear_velocity = Vector2( 0, 1550 )
+linear_velocity = Vector2( 0, 2600 )
 linear_damp = 0.0
 script = ExtResource( 4 )
 masss = 20000.0
@@ -175,12 +176,12 @@ texture = ExtResource( 8 )
 "GravObj",
 "SimObj",
 ]]
-position = Vector2( -3302.89, 40.2011 )
+position = Vector2( -1765.15, -23.8712 )
 mass = 20000.0
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 can_sleep = false
-linear_velocity = Vector2( 400, 650 )
+linear_velocity = Vector2( 0, 1450 )
 linear_damp = 0.0
 angular_velocity = 30.0
 script = ExtResource( 4 )
@@ -231,7 +232,8 @@ shape = ExtResource( 10 )
 disabled = true
 
 [node name="Sprite" type="Sprite" parent="Sun/CollisionShape2D"]
-texture = ExtResource( 26 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 28 )
 
 [node name="Small planet" type="RigidBody2D" parent="." groups=[
 "GravObj",
@@ -243,7 +245,7 @@ mass = 65535.0
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 can_sleep = false
-linear_velocity = Vector2( 0, 250 )
+linear_velocity = Vector2( 0, 1050 )
 linear_damp = 0.0
 script = ExtResource( 4 )
 masss = 6500.0
@@ -275,7 +277,7 @@ mass = 65535.0
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 can_sleep = false
-linear_velocity = Vector2( 0, 1000 )
+linear_velocity = Vector2( 0, 1800 )
 linear_damp = 0.0
 script = ExtResource( 4 )
 __meta__ = {
