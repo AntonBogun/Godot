@@ -35,7 +35,7 @@ friction = 0.1
 [sub_resource type="CircleShape2D" id=2]
 radius = 1300.0
 
-[sub_resource type="Shader" id=7]
+[sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;
 uniform vec4 color : hint_color;
 void fragment() {
@@ -49,18 +49,18 @@ void fragment() {
     }
 }"
 
-[sub_resource type="ShaderMaterial" id=8]
-shader = SubResource( 7 )
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
 shader_param/color = Color( 0.345098, 0.352941, 0.376471, 1 )
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=5]
 radius = 75.0
 
-[sub_resource type="PhysicsMaterial" id=5]
+[sub_resource type="PhysicsMaterial" id=6]
 friction = 0.0
 bounce = 0.4
 
-[sub_resource type="CircleShape2D" id=6]
+[sub_resource type="CircleShape2D" id=7]
 radius = 13.3131
 
 [node name="World" type="Node" groups=[
@@ -300,7 +300,7 @@ scale = Vector2( 0.075, 0.075 )
 shape = ExtResource( 10 )
 
 [node name="Sprite" type="Sprite" parent="Moon/CollisionShape2D"]
-material = SubResource( 8 )
+material = SubResource( 4 )
 texture = ExtResource( 26 )
 
 [node name="SHIP" type="RigidBody2D" parent="." groups=[
@@ -497,7 +497,7 @@ script = ExtResource( 21 )
 [node name="NavBallVisual" type="Area2D" parent="SHIP/Camera2D/UI/InfoPanel"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SHIP/Camera2D/UI/InfoPanel/NavBallVisual"]
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 disabled = true
 
 [node name="Background" type="Node2D" parent="SHIP/Camera2D"]
@@ -513,13 +513,13 @@ script = ExtResource( 12 )
 visible = false
 position = Vector2( 0, 30 )
 mass = 0.01
-physics_material_override = SubResource( 5 )
+physics_material_override = SubResource( 6 )
 linear_damp = 0.0
 script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SHIP/Exhaust"]
 scale = Vector2( 0.5, 0.5 )
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 disabled = true
 
 [node name="Node2D" type="Node2D" parent="SHIP/Exhaust/CollisionShape2D"]

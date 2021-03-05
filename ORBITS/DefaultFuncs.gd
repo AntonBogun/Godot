@@ -59,19 +59,20 @@ func Delay(v):
 	return v
 
 	pass
-func _ready():
-	pass # Replace with function body.
+
+func Rotate(_Node,_angle):
+	_Node.rotation = -_angle
 
 
+
+
+#Deprecated
 func Center(_Node,_pos):
 	if _Node is Control:
 		_Node.rect_position=_pos
 	else:
 		_Node.position=_pos
-
-func Rotate(_Node,_angle):
-	_Node.rotation = -_angle
-
+#Deprecated
 func Rescale(_Node,_scale):
 	
 	if _Node is Control:
